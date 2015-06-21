@@ -44,20 +44,18 @@ resources.resource_add_path(
     ))
 
 
-def enable_backlight():
-    if not HW or not isLinux:
-        print 'enable backlight'
-    else:
-        os.system("echo '1' > /sys/class/gpio/gpio252/value")
-        os.system("echo '90' > /sys/class/rpi-pwm/pwm0/duty")
-
-def disable_backlight():
-    if not HW or not isLinux:
-        print 'disable backlight'
-    else:
-        os.system("echo '0' > /sys/class/gpio/gpio252/value")
-        os.system("echo '1' > /sys/class/rpi-pwm/pwm0/duty")
-
+# _pitft = PiTFT()
+# def enable_backlight():
+#     if not HW or not isLinux:
+#         print 'enable backlight'
+#     else:
+#         _pitft.enable_backlight()
+#
+# def disable_backlight():
+#     if not HW or not isLinux:
+#         print 'disable backlight'
+#     else:
+#         _pitft.disable_backlight()
 
 
 class OctoPiPanelApp(App):
@@ -121,7 +119,7 @@ class OctoPiPanelApp(App):
         if self.backlightofftime > 0 and isLinux:
             if Clock.get_time() - self.bglight_ticks > self.backlightofftime:
                 # disable the backlight
-                disable_backlight()
+                self.pitft.disable_backlight()
 
                 self.bglight_ticks = Clock.get_time()
                 self.bglight_on = False
@@ -214,7 +212,7 @@ class OctoPiPanelApp(App):
 
         """ Clean up """
         # enable the backlight before quiting
-        enable_backlight()
+        self.pitft.enable_backlight()
 
         # OctoPiPanel is going down.
         print "OctoPiPanel is going down."
@@ -222,6 +220,8 @@ class OctoPiPanelApp(App):
         super(OctoPiPanelApp, self).stop()
 
     def build(self):
+
+        self.pitft = PiTFT(fake=not HW or not Linux)
 
         # window title
         self.title = 'OctoPi Panel'
@@ -235,12 +235,7 @@ class OctoPiPanelApp(App):
         # I couldnt seem to get at pin 252 for the backlight using the usual method,
         # but this seems to work
         if HW and isLinux:
-            os.system("echo 252 > /sys/class/gpio/export")
-            os.system("echo 'out' > /sys/class/gpio/gpio252/direction")
-            os.system("echo '1' > /sys/class/gpio/gpio252/value")
-            os.system("echo pwm > /sys/class/rpi-pwm/pwm0/mode")
-            os.system("echo '1000' > /sys/class/rpi-pwm/pwm0/frequency")
-            os.system("echo '90' > /sys/class/rpi-pwm/pwm0/duty")
+            self.pitft.init()
 
         print 'OctoPiPanel initiated'
 
@@ -276,7 +271,7 @@ class OctoPiPanelApp(App):
                 BoxLayout.on_touch_down(root, *x)
             else:
                 print 'turn back on!'
-                enable_backlight()
+                self.pitft.enable_backlight()
                 self.bglight_on = True
 
         root.on_touch_down = do_bglight
