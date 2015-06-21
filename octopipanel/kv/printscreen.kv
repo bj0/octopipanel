@@ -1,0 +1,23 @@
+# Print Screen Layout
+<PrintScreen@Screen>:
+    name: 'print'
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            size_hint: 1, .3
+            orientation: 'horizontal'
+            SysButton:
+                src: 'print.png'
+                text: '         Print'
+                on_press: app.octoprint.start_print()
+            SysButton:
+                src: 'alert.png'
+                text: '         Abort'
+                on_press: app.octoprint.abort_print()
+            SysButton:
+                src: 'pause.png'
+                text: '         Pause'
+                on_press: app.octoprint.pause_print()
+
+        Label:
+            text: 'State: Operational\\nFile: FILE.gcode\\nFilament: 48.5m / 234.4cm3\\nExtimated Print Time: 14:18:45\\nPrint Time: 15:15:24\\nPrint Time Left: 4:4:4\\nCompletion: 5%'

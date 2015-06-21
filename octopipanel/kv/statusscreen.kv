@@ -1,0 +1,58 @@
+<StatLabel@Label>:
+    font_size: 12
+    color: 0,0,0,1
+    halign: 'right'
+    text_size: self.size
+
+<TextLabel@Label>:
+    font_size: 12
+    color: 0,0,0,1
+    #size: self.texture_size
+    text_size: self.size
+    halign: 'left'
+    markup: True
+    bold: True
+
+# Status Screen Layout
+<StatusScreen@Screen>:
+    name: 'status'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 5
+        GridLayout:
+            size_hint: 1, .4
+            spacing: 5
+            cols: 4
+            TextLabel:
+                text: 'HotEnd:'
+            StatLabel:
+                text: '{:.1f}°C'.format(app.hotend_temp)
+            TextLabel:
+                text: 'Bed:'
+            StatLabel:
+                text: '{:.1f}°C'.format(app.bed_temp)
+            TextLabel:
+                text: 'Target:'
+            StatLabel:
+                text: '{:.1f}°C'.format(app.hotend_temp_target)
+            TextLabel:
+                text: 'Target:'
+            StatLabel:
+                text: '{:.1f}°C'.format(app.bed_temp_target)
+            TextLabel:
+                text: 'Z:'
+            StatLabel:
+                text: '{:.2f}mm'.format(app.z_height)
+        TextLabel:
+            halign: 'center'
+            size_hint: 1, .2
+            text: app.status
+            
+        AnchorLayout:
+            canvas:
+                Color:
+                    rgba: .4,.4,.4,.8
+                Line:
+                    rectangle: self.x, self.y-1, self.width+1, self.height
+            id: plot
+

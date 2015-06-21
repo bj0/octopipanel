@@ -1,0 +1,124 @@
+<ImageButton@Button>:
+    src: None
+    Image:
+        source: root.src
+        pos: root.pos
+        size: root.size
+
+
+<GridButton@ImageButton>:
+    size: 40,40
+    size_hint: None,None
+    background_normal: ''
+    background_color: .9, .9, .9, 1
+
+
+# Control Screen Layout
+<ControlScreen@Screen>:
+    name: 'control'
+    RelativeLayout:
+        # x/y axes
+        GridLayout:
+            padding: 5
+            cols:3
+            spacing: 5
+            GridButton:
+                src: 'home_x.png'
+                on_press: app.octoprint.home_x()
+            GridButton:
+                src: 'arrow-up-b.png'
+                on_press: app.octoprint.move_y(app.xy_move_amount)
+            GridButton:
+                src: 'home_y.png'
+                on_press: app.octoprint.home_y()
+            GridButton:
+                src: 'arrow-left-b.png'
+                on_press: app.octoprint.move_x(-app.xy_move_amount)
+            Button:
+                text: str(app.xy_move_amount)
+                size_hint: None,None
+                size: 1,1
+                on_press:
+                    i = app.xy_moves.index(app.xy_move_amount)
+                    app.xy_move_amount = app.xy_moves[(i + 1) % len(app.xy_moves)]
+            GridButton:
+                src: 'arrow-right-b.png'
+                on_press: app.octoprint.move_x(app.xy_move_amount)
+            GridButton:
+                src: 'home.png'
+                on_press: app.octoprint.home_axes(['x','y','z'])
+            GridButton:
+                src: 'arrow-down-b.png'
+                on_press: app.octoprint.move_y(-app.xy_move_amount)
+            GridButton:
+                src: 'home_z.png'
+                on_press: app.octoprint.home_z()
+
+        # z axis
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 5
+            size_hint: None,None
+            size: 40, 40*3+5*2
+            x: 45*3+10
+            y: self.parent.height - self.height - 5
+            GridButton:
+                src: 'arrow-up-b.png'
+                on_press: app.octoprint.move_z(app.z_move_amount)
+            Button:
+                text: str(app.z_move_amount)
+                size_hint: None,None
+                size: 40,40
+                on_press:
+                    i = app.z_moves.index(app.z_move_amount)
+                    app.z_move_amount = app.z_moves[(i + 1) % len(app.z_moves)]
+#                src: 'home_z.png'
+#                on_press: app.octoprint.home_z()
+            GridButton:
+                src: 'arrow-down-b.png'
+                on_press: app.octoprint.move_z(-app.z_move_amount)
+
+        # extruder
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 5
+            size_hint: None,None
+            size: 40, 40*3+5*2
+            x: 45*4+20
+            y: self.parent.height - self.height - 5
+            GridButton:
+                src: 'arrow-up-b.png'
+                on_press: app.octoprint.extrude(-5)
+            Image:
+                size: 40,40
+                source: 'gear-b.png'
+            GridButton:
+                src: 'arrow-down-b.png'
+                on_press: app.octoprint.extrude(5)
+
+        # extra
+        BoxLayout:
+            padding: 5
+            y: self.parent.height-45*3-self.height - 10
+            orientation: 'horizontal'
+            spacing: 5
+            size_hint: 1, None
+            size: 1, 40
+#            GridButton:
+#                src: 'beer.png'
+#            GridButton:
+#                src: 'flask.png'
+#            GridButton:
+#                src: 'beaker.png'
+            GridButton:
+                src: 'motors_off.png'
+            GridButton:
+                src: 'fan.png'
+            GridButton:
+                src: 'fan_off.png'
+
+        # pos display
+#        Label:
+#            size_hint: 1,None
+#            size: 1,40
+#            text: 'X: 0.0 | Y: 0.0 | Z: 0.0'

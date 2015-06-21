@@ -1,0 +1,28 @@
+<SysButton@Button>:
+    src: None
+    Image:
+        size: 40,40
+        source: root.src
+        x: root.x+5
+        center_y: root.center_y
+
+
+# System Screen Layout
+<SystemScreen@Screen>:
+    name: 'system'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 5
+
+        SysButton:
+            src: 'power.png'
+            text: 'Shutdown'
+            on_press: app.shutdown()
+        SysButton:
+            src: 'gear2.png'
+            text: 'Reboot'
+            on_press: app.reboot()
+        SysButton:
+            src: 'restart.png'
+            text: 'Restart OctoPrint'
+            on_press: app.restart()

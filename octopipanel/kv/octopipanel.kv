@@ -1,0 +1,63 @@
+
+## not avail till 1.9
+##:include statusscreen.kv
+##:include controlscreen.kv
+##:include systemscreen.kv
+##:include printscreen.kv
+
+# Widget Rules
+<ImageButton@Button>:
+    src: None
+    Image:
+        source: root.src
+        pos: root.pos
+        size: root.size
+
+<MenuButton@ImageButton>:
+    size: 50,50
+    size_hint: None,None
+    background_normal: ''
+    background_color: .9, .9, .9, 1
+
+
+# Main Window Layout
+BoxLayout:
+    sm: sm
+    canvas:
+        Color:
+            rgb: 1,1,1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    # center button strip
+    AnchorLayout:
+        anchor_y: 'center'
+        anchor_x: 'center'
+        size_hint: None, 1
+        size: 60, 0
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 5
+            size_hint: None, None
+            size: 50, 50*4 + 5*3
+
+            MenuButton:
+                src: 'status.png'
+                on_press: sm.current = 'status'
+            MenuButton:
+                src: 'move.png'
+                on_press: sm.current = 'control'
+            MenuButton:
+                src: 'power.png'
+                on_press: sm.current = 'system'
+            MenuButton:
+                src: 'printer.png'
+                on_press: sm.current = 'print'
+
+    ScreenManager:
+        id: sm
+        StatusScreen:
+            id: stat
+        SystemScreen:
+        ControlScreen:
+        PrintScreen:
