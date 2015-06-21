@@ -1,9 +1,10 @@
 import os
 
 class PiTFT:
-
-    def init(self, fake=False):
+    def __init__(self, fake=False):
         self.fake = fake
+
+    def init(self):
         if fake:
             print ('init')
         else:

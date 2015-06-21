@@ -23,7 +23,8 @@ import platform
 from collections import deque
 import os
 
-from octoprintclient import OctoPrintClient
+from .octoprintclient import OctoPrintClient
+from .pitft import PiTFT
 
 read_only = True
 DEBUG = False
@@ -282,6 +283,7 @@ class OctoPiPanelApp(App):
         x = range(len(self.hotend_temps))
         self.hotend_plot.points = zip(x, self.hotend_temps)
         self.bed_plot.points = zip(x, self.bed_temps)
+
         # adjust plot bounds
         self.graph.ymin = min(0, min(min(self.hotend_temps),min(self.bed_temps))-10)
         self.graph.ymax = max(100, max(max(self.hotend_temps),max(self.bed_temps))+10)
