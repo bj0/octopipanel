@@ -26,13 +26,13 @@
                 src: 'home_x.png'
                 on_press: app.octoprint.home_x()
             GridButton:
-                src: 'arrow-up-b.png'
+                src: 'up.png'
                 on_press: app.octoprint.move_y(app.xy_move_amount)
             GridButton:
                 src: 'home_y.png'
                 on_press: app.octoprint.home_y()
             GridButton:
-                src: 'arrow-left-b.png'
+                src: 'left.png'
                 on_press: app.octoprint.move_x(-app.xy_move_amount)
             Button:
                 text: str(app.xy_move_amount)
@@ -42,13 +42,13 @@
                     i = app.xy_moves.index(app.xy_move_amount)
                     app.xy_move_amount = app.xy_moves[(i + 1) % len(app.xy_moves)]
             GridButton:
-                src: 'arrow-right-b.png'
+                src: 'right.png'
                 on_press: app.octoprint.move_x(app.xy_move_amount)
             GridButton:
                 src: 'home.png'
                 on_press: app.octoprint.home_axes(['x','y','z'])
             GridButton:
-                src: 'arrow-down-b.png'
+                src: 'down.png'
                 on_press: app.octoprint.move_y(-app.xy_move_amount)
             GridButton:
                 src: 'home_z.png'
@@ -63,7 +63,7 @@
             x: 45*3+10
             y: self.parent.height - self.height - 5
             GridButton:
-                src: 'arrow-up-b.png'
+                src: 'up.png'
                 on_press: app.octoprint.move_z(app.z_move_amount)
             Button:
                 text: str(app.z_move_amount)
@@ -75,7 +75,7 @@
 #                src: 'home_z.png'
 #                on_press: app.octoprint.home_z()
             GridButton:
-                src: 'arrow-down-b.png'
+                src: 'down.png'
                 on_press: app.octoprint.move_z(-app.z_move_amount)
 
         # extruder
@@ -87,13 +87,13 @@
             x: 45*4+20
             y: self.parent.height - self.height - 5
             GridButton:
-                src: 'arrow-up-b.png'
+                src: 'up.png'
                 on_press: app.octoprint.extrude(-5)
             Image:
                 size: 40,40
-                source: 'gear-b.png'
+                source: 'gear.png'
             GridButton:
-                src: 'arrow-down-b.png'
+                src: 'down.png'
                 on_press: app.octoprint.extrude(5)
 
         # extra
