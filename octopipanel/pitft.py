@@ -1,11 +1,16 @@
 import os
 
+
 class PiTFT:
+    """
+    A class for controlling the Adafruit PiTFT
+    """
+
     def __init__(self, fake=False):
         self.fake = fake
 
     def init(self):
-        if fake:
+        if self.fake:
             print ('init')
         else:
             os.system("echo 252 > /sys/class/gpio/export")
@@ -16,6 +21,9 @@ class PiTFT:
             os.system("echo '90' > /sys/class/rpi-pwm/pwm0/duty")
 
     def enable_backlight(self):
+        """
+        Enables the PiTFT backlight
+        """
         if self.fake:
             print('enable backlight')
         else:
@@ -23,6 +31,9 @@ class PiTFT:
             os.system("echo '90' > /sys/class/rpi-pwm/pwm0/duty")
 
     def disable_backlight(self):
+        """
+        Disables the PiTFT backlight
+        """
         if self.fake:
             print('disable backlight')
         else:
