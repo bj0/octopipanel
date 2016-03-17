@@ -1,4 +1,14 @@
 # Print Screen Layout
+<TextLabel@Label>:
+    font_size: 10
+    color: 0,0,0,1
+    #size: self.texture_size
+    halign: 'center'
+    size_hint_y: None
+    text_size: self.width, None
+    height: self.texture_size[1]
+    markup: True
+
 <PrintScreen@Screen>:
     name: 'print'
     BoxLayout:
@@ -19,5 +29,8 @@
                 text: '         Pause'
                 on_press: app.octoprint.pause_print()
 
-        Label:
-            text: 'State: Operational\\nFile: FILE.gcode\\nFilament: 48.5m / 234.4cm3\\nExtimated Print Time: 14:18:45\\nPrint Time: 15:15:24\\nPrint Time Left: 4:4:4\\nCompletion: 5%'
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'top'
+            TextLabel:
+                text: 'State: Operational\nFile: FILE.gcode\nFilament: 48.5m / 234.4cm3\nExtimated Print Time: 14:18:45\nPrint Time: 15:15:24\nPrint Time Left: 4:4:4\nCompletion: 5%'
