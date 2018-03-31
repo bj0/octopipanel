@@ -2,7 +2,7 @@ from collections import deque
 
 from kivy.clock import Clock
 from kivy.garden.graph import Graph, MeshLinePlot
-from kivy.properties import BooleanProperty, NumericProperty, StringProperty
+from kivy.properties import BooleanProperty, NumericProperty, StringProperty, ConfigParserProperty
 from kivy.uix.screenmanager import Screen
 from kivy.utils import get_color_from_hex as rgb
 
@@ -10,7 +10,7 @@ from octopipanel.printerstate import PrinterState
 
 
 class StatusScreen(Screen):
-    interval = NumericProperty(1)
+    interval = ConfigParserProperty(5, 'server', 'status_interval', 'app', val_type=int)
 
     paused = BooleanProperty(False)
     printing = BooleanProperty(False)
@@ -50,6 +50,10 @@ class StatusScreen(Screen):
 
         self.status = "Ready."
 
+    def on_interval(self, _, value):
+        Clock.unschedule(self.update)
+        Clock.schedule_interval(self.update, value)
+
     def on_enter(self, *args):
         if self.octoprint is not None:
             self.update()
@@ -62,6 +66,7 @@ class StatusScreen(Screen):
         status = self.octoprint.get_status()
 
         if status:
+            self.status = "Ready."
             state = PrinterState.parse(status=status)
 
             self.paused = state.paused
@@ -91,6 +96,9 @@ class StatusScreen(Screen):
                 self.bed_temps.append(self.bed_temp)
 
                 self.update_plot()
+
+        else:
+            self.status = "No response from server."
 
     def update_plot(self):
         x = range(len(self.hotend_temps))

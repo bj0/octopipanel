@@ -1,12 +1,12 @@
 from kivy.clock import Clock
-from kivy.properties import NumericProperty, StringProperty, BooleanProperty
+from kivy.properties import NumericProperty, StringProperty, BooleanProperty, ConfigParserProperty
 from kivy.uix.screenmanager import Screen
 
 from octopipanel.printerstate import PrinterState
 
 
 class PrintScreen(Screen):
-    interval = NumericProperty(5)
+    interval = ConfigParserProperty(5, 'server', 'job_interval', 'app', val_type=int)
 
     job_loaded = BooleanProperty(False)
     job_completion = NumericProperty(0.0, allownone=True)
@@ -20,6 +20,10 @@ class PrintScreen(Screen):
 
     def init(self, octoprint):
         self.octoprint = octoprint
+
+    def on_interval(self, _, value):
+        Clock.unschedule(self.update)
+        Clock.schedule_interval(self.update, value)
 
     def on_enter(self, *args):
         if self.octoprint is not None:

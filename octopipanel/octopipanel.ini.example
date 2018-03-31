@@ -1,0 +1,4 @@
+[server]
+url = http://octopi.local
+api-key = <api key here>
+

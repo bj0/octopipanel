@@ -1,10 +1,11 @@
-base_url = 'http://octopi.local:5000'
-api_key = '65AA3D33EBFE404184DE8A0695A9E312'
-
-backlight_timeout = 30
+# window size, pitft2.8 is 320x240
+import json
 
 window_width = 320
 window_height = 240
 
+# if false, will use fake data instead of talking to server
 FAKE = False
+
+# if true, will try to control backlight
 PITFT = False

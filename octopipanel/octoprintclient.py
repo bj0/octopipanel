@@ -6,6 +6,7 @@ import requests
 from kivy.logger import Logger
 
 
+# todo return auth errors?
 class OctoPrintClient(object):
     """
     Client connection to an OctoPrint server.
@@ -21,6 +22,10 @@ class OctoPrintClient(object):
         self.fake = fake
         self.base_url = base_url
         self.api_key = api_key
+
+        Logger.info('OctoPrint: using new connection: url={}, key={}'.format(
+            base_url, api_key
+        ))
 
         # specific api paths
         self.addkey = '?apikey={0}'.format(self.api_key)
@@ -216,9 +221,22 @@ fake_connection = '''{
 }'''
 
 if __name__ == '__main__':
-    c = OctoPrintClient(
-        'http://localhost:5000',
-        '65AA3D33EBFE404184DE8A0695A9E312')
+    from octopipanel import OctoPiPanelApp
+
+    from kivy.config import ConfigParser
+
+    app = OctoPiPanelApp()
+    path = app.get_application_config()
+
+    print('config path: ', path)
+    config = ConfigParser('pre-load')
+    config.read(path)
+    api_key = config.get('server', 'api-key')
+    url = config.getdefault('server', 'url', 'http://octopi.local')
+    print('using url:', url)
+    print('using api-key:', api_key)
+
+    c = OctoPrintClient(url, api_key)
     print('stat:', c.get_status())
     print('con:', c.get_connection())
     print('job:', c.get_job())
