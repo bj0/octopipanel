@@ -1,9 +1,7 @@
-
-## not avail till 1.9
-##:include statusscreen.kv
-##:include controlscreen.kv
-##:include systemscreen.kv
-##:include printscreen.kv
+#:include statusscreen.kv
+#:include controlscreen.kv
+#:include systemscreen.kv
+#:include printscreen.kv
 
 # Widget Rules
 <ImageButton@Button>:
@@ -57,7 +55,8 @@ BoxLayout:
     ScreenManager:
         id: sm
         StatusScreen:
-            id: stat
+            id: status
         SystemScreen:
         ControlScreen:
         PrintScreen:
+            id: print

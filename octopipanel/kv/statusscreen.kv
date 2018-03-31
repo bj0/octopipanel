@@ -1,3 +1,5 @@
+#:import StatusScreen octopipanel.statusscreen.StatusScreen
+
 <StatLabel@Label>:
     font_size: 12
     color: 0,0,0,1
@@ -14,7 +16,7 @@
     bold: True
 
 # Status Screen Layout
-<StatusScreen@Screen>:
+<StatusScreen>:
     name: 'status'
     BoxLayout:
         orientation: 'vertical'
@@ -26,33 +28,33 @@
             TextLabel:
                 text: 'HotEnd:'
             StatLabel:
-                text: '{:.1f}°C'.format(app.hotend_temp)
+                text: '{:.1f}°C'.format(root.hotend_temp)
             TextLabel:
                 text: 'Bed:'
             StatLabel:
-                text: '{:.1f}°C'.format(app.bed_temp)
+                text: '{:.1f}°C'.format(root.bed_temp)
             TextLabel:
                 text: 'Target:'
             StatLabel:
-                text: '{:.1f}°C'.format(app.hotend_temp_target)
+                text: '{:.1f}°C'.format(root.hotend_temp_target)
             TextLabel:
                 text: 'Target:'
             StatLabel:
-                text: '{:.1f}°C'.format(app.bed_temp_target)
+                text: '{:.1f}°C'.format(root.bed_temp_target)
             TextLabel:
                 text: 'Z:'
             StatLabel:
-                text: '{:.2f}mm'.format(app.z_height)
+                text: '{:.2f}mm'.format(root.z_height)
         TextLabel:
             halign: 'center'
             size_hint: 1, .2
-            text: app.status
+            text: root.status
             
         AnchorLayout:
+            id: plot
             canvas:
                 Color:
                     rgba: .4,.4,.4,.8
                 Line:
                     rectangle: self.x, self.y-1, self.width+1, self.height
-            id: plot
 

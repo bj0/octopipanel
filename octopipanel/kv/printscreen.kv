@@ -1,3 +1,5 @@
+#:import PrintScreen octopipanel.printscreen.PrintScreen
+
 # Print Screen Layout
 <TextLabel@Label>:
     font_size: 10
@@ -9,7 +11,7 @@
     height: self.texture_size[1]
     markup: True
 
-<PrintScreen@Screen>:
+<PrintScreen>:
     name: 'print'
     BoxLayout:
         orientation: 'vertical'
@@ -19,15 +21,15 @@
             SysButton:
                 src: 'play.png'
                 text: '         Print'
-                on_press: app.octoprint.start_print()
+                on_press: root.octoprint.start_print()
             SysButton:
                 src: 'alert.png'
                 text: '         Abort'
-                on_press: app.octoprint.abort_print()
+                on_press: root.octoprint.abort_print()
             SysButton:
                 src: 'pause.png'
                 text: '         Pause'
-                on_press: app.octoprint.pause_print()
+                on_press: root.octoprint.pause_print()
 
         AnchorLayout:
             anchor_x: 'center'

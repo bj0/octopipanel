@@ -1,6 +1,4 @@
-from __future__ import absolute_import
-
-from octopipanel import OctoPiPanelApp
+import runpy
 
 if __name__ == '__main__':
-    OctoPiPanelApp().run()
+    runpy.run_module('octopipanel')
