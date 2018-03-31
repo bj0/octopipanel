@@ -1,0 +1,27 @@
+[
+  {
+    "type": "title",
+    "title": "Intervals"
+  },
+  {
+    "type": "numeric",
+    "title": "Backlight Timeout",
+    "desc": "backlight timeout in seconds",
+    "section": "pitft",
+    "key": "backlight_timeout"
+  },
+  {
+    "type": "numeric",
+    "title": "Status Interval",
+    "desc": "check printer status every N seconds",
+    "section": "server",
+    "key": "status_interval"
+  },
+  {
+    "type": "numeric",
+    "title": "Job Interval",
+    "desc": "check print job status every N seconds",
+    "section": "server",
+    "key": "job_interval"
+  }
+]
