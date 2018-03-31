@@ -1,7 +1,9 @@
 from __future__ import print_function
 
 import json
+
 import requests
+from kivy.logger import Logger
 
 
 class OctoPrintClient(object):
@@ -9,14 +11,14 @@ class OctoPrintClient(object):
     Client connection to an OctoPrint server.
     """
 
-    def __init__(self, base_url, api_key, debug=False):
+    def __init__(self, base_url, api_key, fake=False):
         """
 
         :param base_url: REST URL for octoprint server
         :param api_key: API key for octoprint server
-        :param debug: use fake data instead of touching server
+        :param fake: use fake data instead of touching server
         """
-        self.debug = debug
+        self.fake = fake
         self.base_url = base_url
         self.api_key = api_key
 
@@ -30,25 +32,23 @@ class OctoPrintClient(object):
         self.apiurl_status = '{0}/api/printer?apikey={1}'.format(
             self.base_url, self.api_key)
         self.apiurl_connection = '{0}/api/connection'.format(self.base_url)
+        self.apiurl_system = '{0}/api/system/commands'.format(self.base_url)
 
     def get_status(self):
-        if not self.debug:
-            req = requests.get(self.apiurl_status)
-            return req.text if req.status_code == 200 else None
+        if not self.fake:
+            return _get(self.apiurl_status)
         else:
             return fake_status
 
     def get_job(self):
-        if not self.debug:
-            req = requests.get(self.apiurl_job + self.addkey)
-            return req.text if req.status_code == 200 else None
+        if not self.fake:
+            return _get(self.apiurl_job + self.addkey)
         else:
             return fake_job
 
     def get_connection(self):
-        if not self.debug:
-            req = requests.get(self.apiurl_connection + self.addkey)
-            return req.text if req.status_code == 200 else None
+        if not self.fake:
+            return _get(self.apiurl_connection + self.addkey)
         else:
             return fake_connection
 
@@ -58,7 +58,7 @@ class OctoPrintClient(object):
             'X-Api-Key': self.api_key}
         data = json.dumps(data)
         print('sending:', headers, data)
-        if not self.debug:
+        if not self.fake:
             return requests.post(url, data=data, headers=headers)
 
     def home_x(self):
@@ -113,6 +113,28 @@ class OctoPrintClient(object):
     def pause_print(self):
         data = dict(command='pause')
         self.send_command(self.apiurl_job, data)
+
+    def shutdown(self):
+        self.send_command(self.apiurl_system + '/core/shutdown', None)
+
+    def restart(self):
+        self.send_command(self.apiurl_system + '/core/restart', None)
+
+    def reboot(self):
+        self.send_command(self.apiurl_system + '/core/reboot', None)
+
+
+def _get(url):
+    try:
+        req = requests.get(url)
+        if req.status_code == 200:
+            return req.text
+        else:
+            Logger.warn('OctoPrint: got response: {}'.format(req.status_code))
+    except requests.exceptions.ConnectionError as e:
+        Logger.error('OctoPrint: Connection Error ({}): {}'.format(e.errno, e.strerror))
+
+    return None
 
 
 fake_status = '''{
